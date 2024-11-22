@@ -1,0 +1,29 @@
+{
+  "name": "vue3_cli_default",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@multiavatar/multiavatar": "^1.0.7",
+    "axios": "^1.7.7",
+    "cnpm": "^9.4.0",
+    "crypto-js": "^4.2.0",
+    "jsencrypt": "^3.3.2",
+    "pinia": "^2.2.4",
+    "pinyin-pro": "^3.25.0",
+    "swiper": "^11.1.14",
+    "swiper-vue": "^0.0.11",
+    "vue": "^3.2.8",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^22.7.4",
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vue/compiler-sfc": "^3.2.6",
+    "vite": "^2.5.2"
+  }
+}
