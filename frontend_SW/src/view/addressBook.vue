@@ -19,7 +19,13 @@
 				<div class="content">
 					<div class="idCard" v-for="(item,index) in filteredList.slice(5*(page-1),5*(page))" key='index'>
 						<div class="action">
-							<!-- <div class="favorite" @click.stop="favorite(item.name)" v-show=""><img src="../assets/img/favorite.svg" alt=""  /></div> -->
+							<!-- <div>{{JSON.parse(item.addition).name}}</div> -->
+							<div :class="{'favorite':item.favorite == false,'favorite_active':item.favorite == true}" @click.stop="favorite(item.name,item.favorite)" >
+								<svg t="1732301452225" class="icon" viewBox="0 0 1168 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1678" fill="#939393">
+									<path d="M838.903248 0.000978a328.971305 328.971305 0 0 0-255.779593 125.3457A322.023964 322.023964 0 0 0 327.539762 0.000978 334.255199 334.255199 0 0 0 0.036204 339.050822a435.334128 435.334128 0 0 0 95.892885 253.137646 2316.693821 2316.693821 0 0 0 447.271814 417.916849 72.115363 72.115363 0 0 0 85.227248 0 2398.496323 2398.496323 0 0 0 447.271813-418.014699 453.142806 453.142806 0 0 0 93.153088-253.137646A334.744448 334.744448 0 0 0 838.903248 0.000978z" p-id="1679">	
+									</path>
+								</svg>
+							</div>
 							<div class="change" @click.stop="changeAddress(item.name)"><img src="../assets/img/change.svg" alt="" /></div>
 							<div class="delete" @click.stop="deleteAddress(item.name)"><img src="../assets/img/delete.svg" alt="" /></div>
 						</div>
@@ -30,6 +36,9 @@
 						<div class="detailContent">
 							<div class="phone">电话：{{item.phoneNumber}}</div>
 							<div class="address">地址：{{item.address}}</div>
+							<div v-for="(value,key) in JSON.parse(item.addition)" key='index'>
+								<div class="address">{{key}}：{{value}}</div>
+							</div>
 						</div>
 					</div>
 					<div class="idCardAdd" @click.stop="addAddress"><img src="../assets/img/add.svg" alt="" /></div>
@@ -62,7 +71,11 @@
 		const amountPage = Math.ceil(testChart.length / 5) + 1
 		return amountPage;
 	})
-
+	
+	// const addition = computed(() => {
+	// 	const addtionSelect = testChart.addition[0]
+	// 	return amountPage;
+	// })
 	
 	let testChart = reactive([])
 
@@ -80,7 +93,7 @@
 	const deleteAddress = async (name) => {
 		const data = {
 			account:loginStore.account,
-			name:name,
+			name:name
 		}
 		console.log(data)
 		const res = await useAddress('deleteAddressBook',data)
@@ -94,10 +107,15 @@
 		addressBookStore.isShowChang = true
 	} 
 	
-	const favorite = async (name) => {
+	const favorite = async (name,isFavorite) => {
+		console.log(name,isFavorite)
 		addressBookStore.name = name;
-		addressBookStore.isShow = false
-		addressBookStore.isShowChang = true
+		let data = {
+			account:loginStore.account,
+			name:addressBookStore.name,
+			favorite:isFavorite
+		}
+		await useAddress("favorite",data)
 	} 
 	
 	onBeforeMount(()=>{
@@ -110,7 +128,8 @@
 		const interval = setInterval(async() => {
 			const res =  await sendRequest(url,method,data)
 			Object.assign(testChart,res)
-			console.log(testChart)
+			// console.log(testChart)
+			// console.log(res)
 		}, 1000)
 	
 	})
@@ -197,8 +216,8 @@
 	.phone{
 		text-align: start;
 		margin-left: 55px;
-		margin-top: 30px;
-		height: 5vh;
+		margin-top: 15px;
+		height: 3vh;
 		width: 70%;
 		// background-color: red;
 	}
@@ -206,7 +225,7 @@
 	.address{
 		text-align: start;
 		margin-left: 55px;
-		height: 5vh;
+		height: 3vh;
 		width: 70%;
 		// background-color: blue;
 	}
@@ -298,12 +317,26 @@
 	.favorite{
 		display: flex;
 		justify-content: end;
-		width: 5%;
+		width: 6%;
 		fill: red;
-		img{
+		svg{
 			margin-top: 5px;
 			margin-right: 10px;
 			height: 20px;
+			// fill: #3685F2;
+		}
+	}
+	
+	.favorite_active{
+		display: flex;
+		justify-content: end;
+		width: 6%;
+		fill: red;
+		svg{
+			margin-top: 5px;
+			margin-right: 10px;
+			height: 20px;
+			fill: #ff0000;
 		}
 	}
 	

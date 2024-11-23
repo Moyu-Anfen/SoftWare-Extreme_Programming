@@ -10,6 +10,7 @@ export const useAddressBookStore = defineStore('AddressBook',{
 			address:'',
 			search:'',
 			isShowChang:false,
+			isfavorite:'',
 		}
 	}
 })
