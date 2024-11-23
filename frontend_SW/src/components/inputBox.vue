@@ -5,6 +5,15 @@
 			<input type="text" placeholder="姓名" maxlength="6" v-model="addressBookStore.name" />
 			<input type="number" placeholder="电话号码" maxlength="11" v-model="addressBookStore.phone" />
 			<input type="text" placeholder="地址" maxlength="13" v-model="addressBookStore.address"/>
+			<div class="additionContent">
+				<input class="additionKey" v-show="addressBookStore.additionCount >= 1" type="text" placeholder="自定义内容" maxlength="4" v-model="addressBookStore.addition_1_key"/>
+				<input class="additionValue" v-show="addressBookStore.additionCount >= 1" type="text" placeholder="联系方式" maxlength="18" v-model="addressBookStore.addition_1_value"/>
+			</div>
+			<div class="additionContent">
+				<input class="additionKey" v-show="addressBookStore.additionCount == 2" type="text" placeholder="自定义内容" maxlength="4" v-model="addressBookStore.addition_2_key"/>
+				<input class="additionValue" v-show="addressBookStore.additionCount == 2" type="text" placeholder="联系方式" maxlength="18" v-model="addressBookStore.addition_2_value"/>
+			</div>
+			<button @click.stop="addNewColumn" >添加</button>
 			<div class="confirm">
 				<button @click.stop="cancel" >取消</button>
 				<button @click.stop="addAddress" style="background-color: rgba(255, 192, 0, 1);">确定</button>
@@ -29,8 +38,14 @@
 				account:loginStore.account,
 				name:addressBookStore.name,
 				phone:addressBookStore.phone,
-				address:addressBookStore.address
+				address:addressBookStore.address,
+				addition:
+				`{
+					"${addressBookStore.addition_1_key}":"${addressBookStore.addition_1_value}",
+					"${addressBookStore.addition_2_key}":"${addressBookStore.addition_2_value}"
+				}`
 			}
+			console.log(data)
 			const res = await useAddress('addAddressBook',data)
 			addressBookStore.isShow = true
 			return res;
@@ -39,6 +54,14 @@
 	
 	const  cancel = () => {
 		addressBookStore.isShow = true
+	} 
+	
+	const  addNewColumn = () => {
+		if(addressBookStore.additionCount < 2){
+			addressBookStore.additionCount++;
+		}else{
+			alert("自定义内容限制为2个")
+		}
 	} 
 	
 </script>
@@ -68,10 +91,29 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		height: 60vh;
+		height: 70vh;
 		width: 30vw;
 		box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.1);
 	}
+	
+	.additionContent{
+		display: flex;
+		flex-direction: row;
+		width: 71%;
+		gap: 8px;
+		flex-wrap: nowrap;
+		input{
+			text-indent: 10px;
+		}
+	}
+	
+	.additionKey{
+		flex: 1;
+	}
+	.additionValue{
+		flex: 2;
+	}
+	
 	
 	button{
 		color: #fff;
