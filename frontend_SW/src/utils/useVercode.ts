@@ -1,7 +1,7 @@
 import { sendRequest } from '../utils/useAxios';
 
 export function useVercode(account:any){
-	const url = 'http://localhost:6001/verify'
+	const url = 'http://extreme.moyu-home.cn/verify'
 	const method = 'POST'
 	const data = {
 		account:account
