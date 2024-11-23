@@ -152,8 +152,6 @@
 		const interval = setInterval(async () => {
 			const res = await sendRequest(url, method, data)
 			Object.assign(testChart, res)
-			// console.log(testChart)
-			// console.log(res)
 		}, 1000)
 
 	})
