@@ -3,7 +3,7 @@ import axios from "axios";
 export async function useAddress(method:string,data:any){
 	const config = {
 		method: 'POST',
-		url: `http://localhost:6001/${method}`,
+		url: `http://extreme.moyu-home.cn/${method}`,
 		headers: {
 			'Content-Type': 'application/json' // 请求头设置为JSON
 		},
