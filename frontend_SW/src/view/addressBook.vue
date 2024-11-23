@@ -448,7 +448,7 @@
 		width: 10vw;
 	}
 	
-	button:hover{
+	.download:hover{
 		color: #fff;
 		font-size: 16px;
 		border: none;
@@ -458,6 +458,15 @@
 		width: 10vw;
 	}
 	
+	.upload:hover{
+		color: #fff;
+		font-size: 16px;
+		border: none;
+		background-color: #00bbff;
+		box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.3);
+		height: 6vh;
+		width: 10vw;
+	}
 
 	input {
 		top: 100px;
