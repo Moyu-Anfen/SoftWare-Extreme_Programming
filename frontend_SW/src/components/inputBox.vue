@@ -24,31 +24,61 @@
 </template>
 
 <script lang="ts" setup name='inputBox'>
-	import { useAddressBookStore } from '../store/addressBook';
+	import { ref } from 'vue';
+import { useAddressBookStore } from '../store/addressBook';
 	import { useLoginStore } from '../store/login';
 	import { useAddress } from '../utils/useAddress';
 	const loginStore = useLoginStore()
 	const addressBookStore = useAddressBookStore()
-
+	
+	
 	const  addAddress = async () => {
+		addressBookStore.additionCount = 0
 		if(addressBookStore.name == '' || addressBookStore.phone == '' || addressBookStore.address == '' ){
 			alert("请勿留空！")
 		}else{
-			const data = {
-				account:loginStore.account,
-				name:addressBookStore.name,
-				phone:addressBookStore.phone,
-				address:addressBookStore.address,
-				addition:
-				`{
-					"${addressBookStore.addition_1_key}":"${addressBookStore.addition_1_value}",
-					"${addressBookStore.addition_2_key}":"${addressBookStore.addition_2_value}"
-				}`
+			if(addressBookStore.addition_1_key == ''){
+				const data = {
+					account:loginStore.account,
+					name:addressBookStore.name,
+					phone:addressBookStore.phone,
+					address:addressBookStore.address,
+					addition:null
+				}
+					console.log(data)
+					const res = await useAddress('addAddressBook',data)
+					addressBookStore.isShow = true
+					return res;
+			}else if(addressBookStore.addition_2_key == ''){
+				const data = {
+					account:loginStore.account,
+					name:addressBookStore.name,
+					phone:addressBookStore.phone,
+					address:addressBookStore.address,
+					addition:`{
+						"${addressBookStore.addition_1_key}":"${addressBookStore.addition_1_value}"
+					}`
+				}
+				console.log(data)
+				const res = await useAddress('addAddressBook',data)
+				addressBookStore.isShow = true
+				return res;
+			}else{
+				const data = {
+					account:loginStore.account,
+					name:addressBookStore.name,
+					phone:addressBookStore.phone,
+					address:addressBookStore.address,
+					addition:`{
+						"${addressBookStore.addition_1_key}":"${addressBookStore.addition_1_value}",
+						"${addressBookStore.addition_2_key}":"${addressBookStore.addition_2_value}"
+					}`
+				}
+				console.log(data)
+				const res = await useAddress('addAddressBook',data)
+				addressBookStore.isShow = true
+				return res;
 			}
-			console.log(data)
-			const res = await useAddress('addAddressBook',data)
-			addressBookStore.isShow = true
-			return res;
 		}
 	} 
 	
@@ -91,7 +121,7 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		height: 70vh;
+		height: 80vh;
 		width: 30vw;
 		box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.1);
 	}
@@ -118,7 +148,7 @@
 	button{
 		color: #fff;
 		font-size: 16px;
-		margin-top: 50px;
+		margin-top: 30px;
 		border: none;
 		background-color: #00B0F0;
 		box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.3);
