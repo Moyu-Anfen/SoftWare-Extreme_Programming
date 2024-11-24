@@ -75,7 +75,7 @@
 		if(loginStore.account == '' || password.value == ''){
 			alert("请勿填空值！")
 		}else{
-			let url = 'http://localhost:6001/login'
+			let url = 'http://extreme.moyu-home.cn/login'
 			let method = 'POST'
 			let encryptPassword = await encrypt(password.value)
 			console.log('encryptPassword：',encryptPassword)
